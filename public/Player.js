@@ -4,7 +4,7 @@ export class Player {
         this.y = y;
     }
 
-    initConnection() {
+    init() {
         this.connection = new WebSocket('ws://localhost:1337');
         this.connection.onopen = () => {
             console.log('connection to game server established!');
@@ -30,6 +30,6 @@ export class Player {
     }
 
     render() {
-        // render the player at (x, y) in the game world     
+        console.log('player position: (%d, %d)', this.x, this.y);
     }
 }

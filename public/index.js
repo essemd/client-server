@@ -41,4 +41,8 @@ connection.onmessage = function(msg) {
     console.log('sent from wss:', msg);
 }
 */
-Game.run();
+let gameInstance = new Game();
+gameInstance.init();
+
+// client game loop
+setInterval(gameInstance.run.bind(gameInstance), 16);
