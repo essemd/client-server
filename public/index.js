@@ -1,3 +1,5 @@
+import { Game } from './Game.js';
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -22,11 +24,12 @@ function create ()
 {
 }
 
-function send() {
+/*function send() {
     connection.send('i am client, i send stuff over websocket');
 }
-
+*/
 let game = new Phaser.Game(config);
+/*
 let connection = new WebSocket('ws://localhost:1337');
 
 connection.onopen = function () {
@@ -37,4 +40,5 @@ connection.onopen = function () {
 connection.onmessage = function(msg) {
     console.log('sent from wss:', msg);
 }
-
+*/
+Game.run();
