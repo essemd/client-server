@@ -1,48 +1,36 @@
 import { Game } from './Game.js';
+import sheetFrames from './otsp_tiles_01.json' assert { type: 'json' };
 
-var config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 }
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create
-    }
-}; 
+//let app = new PIXI.Application({ width: 800, height: 600 });
+//document.body.appendChild(app.view);
 
-function preload ()
-{
-}
+/*let rawSpriteSheet = PIXI.Texture.from('/otsp_tiles_01.png'); 
+const spriteSheet = new PIXI.Spritesheet(rawSpriteSheet, sheetFrames); 
 
-function create ()
-{
-}
-
-/*function send() {
-    connection.send('i am client, i send stuff over websocket');
-}
+let sprite = new PIXI.Sprite(spriteSheet.textures['tile_1.png']);
+console.log(sprite);
 */
-let game = new Phaser.Game(config);
-/*
-let connection = new WebSocket('ws://localhost:1337');
 
-connection.onopen = function () {
-    console.log('***WebSocket connected on client side');
-    send();
-}
+//let sheetBaseTexture = PIXI.BaseTexture.from('/otsp_tiles_01.png');
+//let texture = new PIXI.Texture(sheetBaseTexture, new PIXI.Rectangle(160, 32, 32, 32));
+//let sprite = new PIXI.Sprite(texture);
 
-connection.onmessage = function(msg) {
-    console.log('sent from wss:', msg);
-}
-*/
+//sprite.position.set(0, 0);
+//app.stage.addChild(sprite);
+
+//let container = new PIXI.Container();
+//let sprite2 = PIXI.Sprite.from('https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png');
+//console.log(sprite2);
+//sprite.position.set(0, 0);
+
+//app.stage.addChild(sprite);
+
+//container.addChild(sprite);
+//container.render();
+
 let gameInstance = new Game();
 gameInstance.init();
 
 // client game loop
 setInterval(gameInstance.run.bind(gameInstance), 16);
+//gameInstance.run();

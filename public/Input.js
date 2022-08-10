@@ -12,8 +12,6 @@ export class Input {
         window.addEventListener('keyup', (e) => {
             this.pressed[e.keyCode] = false;
         });
-
-        console.log('input.init()');
     }
 
     isPressed(key) {

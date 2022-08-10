@@ -1,0 +1,11 @@
+{
+    "meta": {
+        "image": "otsp_tiles_01.png"
+    },
+    "frames": {
+        "tile_1.png": {
+            "frame": {"x": 32, "y": 32, "w": 32, "h": 32},
+            "sourceSize": {"w": 32, "h": 32}
+        }
+    }
+}
