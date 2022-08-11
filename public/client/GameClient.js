@@ -9,9 +9,18 @@ const D = 68;
 const P = 80;
 const R = 82;
 
-export class Game {
+let gameClient = null;
+
+export class GameClient {
     constructor() {
-        this.lastTs = new Date();
+        if (!gameClient) {
+            this.players = [];
+            this.lastTs = new Date();
+
+            gameClient = this;
+        }
+
+        return gameClient;
     }
 
     init() {
@@ -27,6 +36,34 @@ export class Game {
 
         this.player = new Player(0, 0);  
         this.player.init();
+
+        this.connection = new WebSocket('ws://localhost:1337');
+
+        this.connection.onopen = () => {
+            console.log('connection to game server established!');
+        }
+
+        this.connection.onmessage = (msg) => {
+            const msgData = JSON.parse(msg.data);
+
+            switch (msgData.msgType) {
+                case 'connected':
+                    this.player.onConnected(msgData);
+                    break;
+                case 'broadcast':
+                    this.player.onMove(msgData);
+                    // iterate through state payload
+                        // if its another player
+                            // update that player locally
+                        // if its us
+                            // Player.onMove(msg);
+                    break;
+            }
+        };
+    }
+    
+    getConnection() {
+        return this.connection;
     }
 
     processInput() {
@@ -39,8 +76,9 @@ export class Game {
         else if (this.input.isPressed(A))
             this.player.processInput(this.player.x - 1, this.player.y);
 
-        else if (this.input.isPressed(S))
+        else if (this.input.isPressed(S)) {
             this.player.processInput(this.player.x, this.player.y + 1);
+        }
 
         else if (this.input.isPressed(D))
             this.player.processInput(this.player.x + 1, this.player.y);

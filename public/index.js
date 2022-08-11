@@ -1,4 +1,4 @@
-import { Game } from './Game.js';
+import { GameClient } from './client/GameClient.js';
 import sheetFrames from './otsp_tiles_01.json' assert { type: 'json' };
 
 //let app = new PIXI.Application({ width: 800, height: 600 });
@@ -28,9 +28,8 @@ console.log(sprite);
 //container.addChild(sprite);
 //container.render();
 
-let gameInstance = new Game();
-gameInstance.init();
+let gameClient = new GameClient();
+gameClient.init();
 
 // client game loop
-setInterval(gameInstance.run.bind(gameInstance), 16);
-//gameInstance.run();
+setInterval(gameClient.run.bind(gameClient), 16);
