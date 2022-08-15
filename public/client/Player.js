@@ -24,15 +24,17 @@ export class Player {
     }
 
     onMove(msg) { // this message is embedded in the broadcast payload, its not the ws layer message
-        msg = msg.state[this.id];
-        this.setPos(msg.x, msg.y);
+        if (this.connected) {
+            msg = msg.state[this.id];
+            this.setPos(msg.x, msg.y);
 
-        if (this.reconciliation) {
-            for (let i = 0; i < this.pendingInputs.length; i++) {
-                if (this.pendingInputs[i].sequenceNum <= msg.sequenceNum) {
-                    this.pendingInputs.splice(i, 1);
-                } else {
-                    this.setPos(this.pendingInputs[i].x, this.pendingInputs[i].y);
+            if (this.reconciliation) {
+                for (let i = 0; i < this.pendingInputs.length; i++) {
+                    if (this.pendingInputs[i].sequenceNum <= msg.sequenceNum) {
+                        this.pendingInputs.splice(i, 1);
+                    } else {
+                        this.setPos(this.pendingInputs[i].x, this.pendingInputs[i].y);
+                    }
                 }
             }
         }

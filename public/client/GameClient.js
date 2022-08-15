@@ -14,7 +14,7 @@ let gameClient = null;
 export class GameClient {
     constructor() {
         if (!gameClient) {
-            this.players = [];
+            this.players = {};
             this.lastTs = new Date();
 
             gameClient = this;
@@ -22,7 +22,6 @@ export class GameClient {
 
         return gameClient;
     }
-
     init() {
         this.pixiApp = new PIXI.Application({ width: 1024, height: 1024 });
         document.body.appendChild(this.pixiApp.view);
@@ -52,11 +51,24 @@ export class GameClient {
                     break;
                 case 'broadcast':
                     this.player.onMove(msgData);
-                    // iterate through state payload
-                        // if its another player
-                            // update that player locally
-                        // if its us
-                            // Player.onMove(msg);
+
+                    let stateUpdates = msgData.state;
+
+                    for (const u in stateUpdates) {
+                        const update = stateUpdates[u];
+                        if (update.playerId in this.players) {
+                            this.players[update.playerId].x = update.x;
+                            this.players[update.playerId].y = update.y;
+                        } else {
+                            this.players[update.playerId] = 
+                            {
+                                    playerId: update.playerId,
+                                    x: update.x,
+                                    y: update.y
+                            }
+                        }
+                    }
+
                     break;
             }
         };
@@ -122,11 +134,21 @@ export class GameClient {
             }
         }
     
-        // render player
-        let playerSprite = new PIXI.Sprite(this.player.getTexture());
-        playerSprite.position.set(this.player.getX() * 32, this.player.getY() * 32);
+        // render all players
+        for (const p in this.players) {
+            const player = this.players[p];
 
-        this.pixiApp.stage.addChild(playerSprite);
+            let playerSprite = new PIXI.Sprite(this.player.getTexture()); // all players are using this client players' texture for now
+            playerSprite.position.set(player.x * 32, player.y * 32);
+
+            this.pixiApp.stage.addChild(playerSprite);
+        }
+        
+        // render player
+        //let playerSprite = new PIXI.Sprite(this.player.getTexture());
+        //playerSprite.position.set(this.player.getX() * 32, this.player.getY() * 32);
+
+        //this.pixiApp.stage.addChild(playerSprite);
     }
 
     run() {
